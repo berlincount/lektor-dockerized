@@ -28,6 +28,7 @@ COPY . .
 ARG LEKTOR_VERSION
 ENV SETUPTOOLS_SCM_PRETEND_VERSION="${LEKTOR_VERSION:-0.0a0+docker}"
 RUN pip install --no-cache-dir .
+RUN pip install lektor-datetime-helpers lektor-git-src-publisher lektor-git-timestamp lektor-simplemde lektor-shortcodes mistune
 
 FROM base AS lektor
 COPY --from=build /usr/local /usr/local/
