@@ -18,22 +18,25 @@ RUN apk add --no-cache \
 
 # Build
 FROM base AS build
-RUN apk add --no-cache npm esbuild
+RUN apk add --no-cache npm esbuild make
 WORKDIR /build
 COPY . .
+RUN find / -name dash.html # prebuild
 #RUN cd frontend && \
 #        npm install && \
 #        esbuild
 
 ARG LEKTOR_VERSION
 ENV SETUPTOOLS_SCM_PRETEND_VERSION="${LEKTOR_VERSION:-0.0a0+docker}"
+RUN make build-js
 RUN pip install --no-cache-dir .
 RUN pip install lektor-datetime-helpers lektor-git-src-publisher lektor-git-timestamp mistune
+RUN cp -auv /build/lektor /usr/local/lib/python3.10/site-packages/
+RUN find / -name dash.html # postbuild
 
 FROM base AS lektor
 COPY --from=build /usr/local /usr/local/
-# semi-hardcoded path
-RUN mkdir -p /usr/local/lib/python3.10/site-packages/lektor/translations
+RUN find / -name dash.html # target
 
 # Site source code
 VOLUME /project /output
