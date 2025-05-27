@@ -32,6 +32,8 @@ RUN pip install lektor-datetime-helpers lektor-git-src-publisher lektor-git-time
 
 FROM base AS lektor
 COPY --from=build /usr/local /usr/local/
+# semi-hardcoded path
+RUN mkdir -p /usr/local/lib/python3.10/site-packages/lektor/translations
 
 # Site source code
 VOLUME /project /output
