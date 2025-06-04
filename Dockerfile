@@ -37,7 +37,6 @@ RUN cp -auv /build/lektor /usr/local/lib/python3.10/site-packages/
 
 FROM base AS lektor
 COPY --from=build /usr/local /usr/local/
-RUN addgroup -g 1000 lektor
 RUN adduser -h /home/lektor -D -u 1000 lektor
 
 # Site source code
