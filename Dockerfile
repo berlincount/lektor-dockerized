@@ -24,7 +24,6 @@ FROM base AS build
 RUN apk add --no-cache npm esbuild make
 WORKDIR /build
 COPY . .
-RUN find / -name dash.html # prebuild
 #RUN cd frontend && \
 #        npm install && \
 #        esbuild
@@ -35,11 +34,11 @@ RUN make build-js
 RUN pip install --no-cache-dir .
 RUN pip install lektor-datetime-helpers lektor-git-src-publisher lektor-git-timestamp mistune
 RUN cp -auv /build/lektor /usr/local/lib/python3.10/site-packages/
-RUN find / -name dash.html # postbuild
 
 FROM base AS lektor
 COPY --from=build /usr/local /usr/local/
-RUN find / -name dash.html # target
+RUN addgroup -g 1000 lektor
+RUN adduser -h /home/lektor -D -u 1000 lektor
 
 # Site source code
 VOLUME /project /output
