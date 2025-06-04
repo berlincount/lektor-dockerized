@@ -1,13 +1,14 @@
 # syntax=docker/dockerfile:1
 
-ARG PYTHON_TAG=3.10-alpine3.21
+ARG PYTHON_TAG=3.10-alpine3.22
 
 FROM python:${PYTHON_TAG} AS base
 
 RUN apk add --no-cache \
-  rsync \
+  ffmpeg \
+  git \
   imagemagick \
-  ffmpeg
+  rsync
 
 # Approximate size of each addition (incl. dependencies):
 #
