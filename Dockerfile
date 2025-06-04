@@ -8,6 +8,8 @@ RUN apk add --no-cache \
   ffmpeg \
   git \
   imagemagick \
+  openssh-client-default \
+  rclone \
   rsync
 
 # Approximate size of each addition (incl. dependencies):
